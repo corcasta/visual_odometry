@@ -1,15 +1,5 @@
-<p align="center"> <img src="doc/trajectory.png" alt="Trajectory"/> </p>
-
-## Monocular Visual Odometry
-
+## Monocular Visual Odometry 3D-2D or 2D-2D method.
+<p align="center"> <img src="doc/image.png" alt="Trajectory"/> </p>
 **DatasetReaderKITTI** is responsible for loading frames from [KITTI Visual Odometry Dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) (optionally scaling them to reduce processing time) and ground truth (camera matrix, camera position and scale).
 
-In a processing loop I convert images to greyscale, run keypoint detection using GFTT and then track these keypoints with **FeatureTracker** that uses OpenCV optical flow. After finding feature tracks, I remove outliers (outside of image). In the next step I estimate the essential matrix *E* to find relative pose *R*, *t* between consecutive frames. Calculating *E* matrix also allows to remove few outliers (found by RANSAC). Having that rotation and translation, I calculate absolute position and orientation of the camera and I use them to draw a trajectory.
-
-To get better results, I rely on absolute scale provided as KITTI groundtruth when computing abs. pose.
-
-There are plenty things to add: generating point cloud, measuring the accuracy of trajectory and so on.
-
-<p align="center"> <img src="doc/tracking_1.png" alt="Tracking 1"/> </p>
-<p align="center"> <img src="doc/tracking_2.png" alt="Tracking 2"/> </p>
-
+The process begins by converting images to greyscale and detecting keypoints using ORB/SIFT/Edges, etc. These keypoints are then tracked using a FeatureTracker, which can utilize OpenCV's optical flow or a straight forward triangulation but more computational heavy. Outliers located outside the image are removed after tracking. Next step involves estimating the essential matrix (E) to determine the relative pose (R and t) between consecutive frames. Additional outliers are eliminated using RANSAC during this process. Finally, the rotation and translation are used to compute the camera's absolute position and orientation, which are then used to plot its trajectory.
